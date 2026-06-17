@@ -43,6 +43,101 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 UFUNCTION(Server, Reliable)
 void ServerRevive();
 
+void AFirstPersonCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
+{
+    Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+    if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+    {
+        // ====================== 1. 移动输入（WASD） ======================
+        if (MoveAction)
+        {
+            // Triggered：按键按住时持续触发
+            EnhancedInputComponent->BindAction(
+                MoveAction, 
+                ETriggerEvent::Triggered, 
+                this, 
+                &AFirstPersonCharacter::Move
+            );
+        }
+
+        // ====================== 2. 视角输入（鼠标） ======================
+        if (LookAction)
+        {
+            EnhancedInputComponent->BindAction(
+                LookAction, 
+                ETriggerEvent::Triggered, 
+                this, 
+                &AFirstPersonCharacter::Look
+            );
+        }
+
+        // ====================== 3. 射击输入（鼠标左键） ======================
+        if (FireAction)
+        {
+            // Started：按键按下瞬间触发
+            EnhancedInputComponent->BindAction(
+                FireAction, 
+                ETriggerEvent::Started, 
+                this, 
+                &AFirstPersonCharacter::StartFire
+            );
+            // Completed：按键松开瞬间触发
+            EnhancedInputComponent->BindAction(
+                FireAction, 
+                ETriggerEvent::Completed, 
+                this, 
+                &AFirstPersonCharacter::StopFire
+            );
+        }
+
+        // ====================== 4. 跳跃输入（空格） ======================
+        if (JumpAction)
+        {
+            EnhancedInputComponent->BindAction(
+                JumpAction, 
+                ETriggerEvent::Started, 
+                this, 
+                &ACharacter::Jump  // 直接用父类ACharacter自带的Jump函数
+            );
+            EnhancedInputComponent->BindAction(
+                JumpAction, 
+                ETriggerEvent::Completed, 
+                this, 
+                &ACharacter::StopJumping
+            );
+        }
+
+        // ====================== 5. 蹲伏输入（左Ctrl） ======================
+        if (CrouchAction)
+        {
+            EnhancedInputComponent->BindAction(
+                CrouchAction, 
+                ETriggerEvent::Started, 
+                this, 
+                &AFirstPersonCharacter::StartCrouch
+            );
+            EnhancedInputComponent->BindAction(
+                CrouchAction, 
+                ETriggerEvent::Completed, 
+                this, 
+                &AFirstPersonCharacter::StopCrouch
+            );
+        }
+
+        // ====================== 6. 装弹输入（R键） ======================
+        if (ReloadAction)
+        {
+            EnhancedInputComponent->BindAction(
+                ReloadAction, 
+                ETriggerEvent::Started, 
+                this, 
+                &AFirstPersonCharacter::Reload
+            );
+        }
+    }
+}
+
 void AFirstPersonCharacter::ServerRevive_Implementation()
 {
     if (!HasAuthority())
