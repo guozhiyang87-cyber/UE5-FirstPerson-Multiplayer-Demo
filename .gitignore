@@ -1,0 +1,48 @@
+# Visual Studio
+*.sln
+*.vcxproj*
+*.dsw
+*.dsp
+.vs/
+Debug/
+Release/
+Intermediate/
+Binaries/
+
+# Unreal Engine
+Binaries/
+Intermediate/
+Saved/
+.vs/
+*.sln
+*.vcxproj*
+Derived*
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.lib
+*.obj
+*.o
+*.a
+
+# UE5 Specific
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
+Plugins/*/Saved/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
