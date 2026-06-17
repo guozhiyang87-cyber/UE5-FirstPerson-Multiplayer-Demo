@@ -74,6 +74,16 @@ void AMultiplayerGameMode::CheckGameOver()
     }
 }
 
+void AMultiplayerGameMode::ServerRespawnPlayer_Implementation(AFirstPersonCharacter* DeadPlayer)
+{
+    if (!HasAuthority() || !DeadPlayer)
+        return;
+    
+    FTransform SpawnTransform = GetRandomSpawnPoint();
+    DeadPlayer->SetActorTransform(SpawnTransform);
+    DeadPlayer->ServerRevive();
+}
+
 void AMultiplayerGameMode::SpawnEnemyWave()
 {
     if (!HasAuthority())
