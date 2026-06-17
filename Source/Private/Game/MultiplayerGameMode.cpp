@@ -28,7 +28,40 @@ void AMultiplayerGameMode::BeginPlay()
         GetWorld()->GetTimerManager().SetTimer(WaveSpawnTimerHandle, this, &AMultiplayerGameMode::SpawnEnemyWave, WaveInterval, true, 5.0f);
     }
 }
+void AMultiplayerGameMode::SpawnEnemyWave()
+{
+    if (!HasAuthority())
+        return;
+    
+    CurrentWave++;
+    EnemiesSpawnedThisWave = 0;
+    int32 EnemiesToSpawn = InitialEnemyCount + (CurrentWave * 2);
+    
+    for (int32 i = 0; i < EnemiesToSpawn; i++)
+    {
+        FTimerHandle SpawnTimer;
+        GetWorld()->GetTimerManager().SetTimer(SpawnTimer, [this, i]()
+        {
+            SpawnSingleEnemy();
+        }, i * 0.5f, false);
+    }
+}
 
+void AMultiplayerGameMode::SpawnSingleEnemy()
+{
+    if (!EnemyClass || EnemySpawnPoints.Num() == 0)
+        return;
+    
+    int32 SpawnIndex = FMath::RandRange(0, EnemySpawnPoints.Num() - 1);
+    FVector SpawnLocation = EnemySpawnPoints[SpawnIndex];
+    
+    AEnemyCharacter* NewEnemy = GetWorld()->SpawnActor<AEnemyCharacter>(EnemyClass, SpawnLocation, FRotator::ZeroRotator);
+    if (NewEnemy)
+    {
+        ActiveEnemyCount++;
+        EnemiesSpawnedThisWave++;
+    }
+}
 void AMultiplayerGameMode::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
