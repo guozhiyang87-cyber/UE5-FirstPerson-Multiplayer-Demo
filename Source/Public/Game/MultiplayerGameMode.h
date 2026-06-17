@@ -85,6 +85,12 @@ public:
     // Get game state
     FORCEINLINE AMultiplayerGameState* GetMultiplayerGameState() const { return GameStateInstance; }
 
+    UFUNCTION(BlueprintCallable, Category = "Player")
+    void RespawnPlayer(AFirstPersonCharacter* DeadPlayer);
+    
+    UFUNCTION(Server, Reliable)
+    void ServerRespawnPlayer(AFirstPersonCharacter* DeadPlayer);
+
 private:
     AMultiplayerGameState* GameStateInstance;
 
