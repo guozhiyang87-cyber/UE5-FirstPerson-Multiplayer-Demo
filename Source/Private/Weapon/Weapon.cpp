@@ -57,6 +57,19 @@ void AWeapon::EquipWeapon(AFirstPersonCharacter* NewOwner)
     CurrentAmmo = AmmoPerMagazine;
 }
 
+void AWeapon::MulticastFireEffect_Implementation(FVector FireStart, FVector FireEnd)
+{
+    if (MuzzleFlash)
+    {
+        UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlash, FireStart, FRotator::ZeroRotator, true);
+    }
+    
+    if (FireSound)
+    {
+        UGameplayStatics::PlaySoundAtLocation(GetWorld(), FireSound, FireStart);
+    }
+}
+
 void AWeapon::UnequipWeapon()
 {
     OwnerCharacter = nullptr;
