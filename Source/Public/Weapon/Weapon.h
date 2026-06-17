@@ -63,6 +63,18 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Weapon")
     void Reload();
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effects")
+    UParticleSystem* MuzzleFlash;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Effects")
+    UParticleSystem* HitEffect;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+    USoundBase* FireSound;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Audio")
+    USoundBase* HitSound;
+
 private:
     FVector LastFireEnd = FVector::ZeroVector;
 };
