@@ -162,7 +162,7 @@ void AFirstPersonCharacter::Fire()
     FVector CameraLocation = FirstPersonCamera->GetComponentLocation();
     FVector CameraForward = FirstPersonCamera->GetForwardVector();
 
-    ServerFire(CameraLocation, CameraForward);
+    CurrentWeapon->Fire(CameraLocation, CameraForward);
 }
 
 void AFirstPersonCharacter::ServerFire_Implementation(FVector FireLocation, FVector FireDirection)
