@@ -30,7 +30,7 @@ struct FPlayerStats
     bool bIsAlive = true;
 };
 
-AFIRSTPersonCharacter : public ACharacter
+AFirstPersonCharacter : public ACharacter
 {
     GENERATED_BODY()
 
