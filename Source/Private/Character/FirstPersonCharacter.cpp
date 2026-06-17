@@ -40,6 +40,21 @@ AFirstPersonCharacter::AFirstPersonCharacter()
     PlayerStats.bIsAlive = true;
 }
 
+UFUNCTION(Server, Reliable)
+void ServerRevive();
+
+void AFirstPersonCharacter::ServerRevive_Implementation()
+{
+    if (!HasAuthority())
+        return;
+    
+    CurrentHealth = MaxHealth;
+    PlayerStats.bIsAlive = true;
+    GetCharacterMovement()->EnableMovement();
+    GetCapsuleComponent()->SetCollisionEnabled(ECC_Pawn);
+    MulticastRevive();
+}
+
 void AFirstPersonCharacter::BeginPlay()
 {
     Super::BeginPlay();
