@@ -107,6 +107,21 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
     UCameraComponent* FirstPersonCamera;
 
+    // 新增输入动作
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+    class UInputAction* JumpAction;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+    class UInputAction* CrouchAction;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+    class UInputAction* ReloadAction;
+
+    // 新增输入回调
+    void Jump();
+    void StartCrouch();
+    void StopCrouch();
+    void Reload();
 private:
     // Enhanced Input System
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
